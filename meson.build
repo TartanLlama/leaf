@@ -44,7 +44,9 @@ endif
 
 thread_dep = dependency('threads')
 
-includes = [ include_directories('include') ]
+boost_headers_dep = declare_dependency(include_directories: '../../../..')
+
+includes = [ include_directories('include'), include_directories('../variant2/include') ]
 
 leaf = declare_dependency( include_directories: includes )
 
@@ -117,6 +119,7 @@ tests = [
 foreach t : tests
 	test(t, executable(t, 'test/'+t+'.cpp', dependencies: [leaf,thread_dep] ) )
 endforeach
+test( 'handle_some_variant2_test', executable('handle_some_variant2_test', 'test/handle_some_variant2_test.cpp', dependencies: [leaf,boost_headers_dep]) )
 
 examples = [
 	'capture_in_exception',
